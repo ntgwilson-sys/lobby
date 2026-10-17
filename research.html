@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0b">
+<title>lobby research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Courier+Prime:ital@0;1&display=swap">
+<style>
+/* layout: a case file in a dark office. venetian blind light across the page, typewritten exhibits stepping down like the rules page */
+:root{
+  --ink:#0b0b0b;
+  --paper:#f1eee7;
+  --smoke:#9a968e;
+  --rule:#2c2b29;
+  --deco:"Poiret One",Futura,"Century Gothic",sans-serif;
+  --type:"Courier Prime","Courier New",Courier,monospace;
+  color-scheme:dark;
+}
+html{margin:0;background:var(--ink);color:var(--paper);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+  margin:0 auto;max-width:1240px;position:relative;
+  background:var(--ink);color:var(--paper);
+  font:15px/1.6 var(--type);text-transform:lowercase;
+  box-sizing:border-box;
+  padding-block:24px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:48px 16px;
+}
+/* light through the blinds, a vignette, and film grain */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:2;
+  background:
+    repeating-linear-gradient(166deg,rgba(241,238,231,.045) 0 26px,transparent 26px 58px),
+    radial-gradient(ellipse at 30% 20%,transparent 40%,rgba(0,0,0,.45) 100%);
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:3;opacity:.09;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+p{margin:0;text-wrap:pretty;max-width:62ch}
+a{color:inherit;text-decoration:none}
+a:hover,a:focus-visible{text-decoration:underline;outline:none}
+.t{font-family:var(--deco);letter-spacing:.14em;font-size:20px;display:inline-block}
+.dim{color:var(--smoke)}
+
+.file{grid-column:1 / 3}
+.file .t{font-size:32px;letter-spacing:.28em;line-height:1.1}
+.job{grid-column:3 / 5;text-align:center}
+.back{grid-column:5 / 7;text-align:right}
+
+.lede{grid-column:1 / 5}
+.lede p + p{margin-top:12px}
+
+/* exhibits step down the page like the rules do */
+.ex{display:flex;flex-direction:column;gap:14px;min-width:0}
+.ex:nth-of-type(1){grid-column:1 / 6}
+.ex:nth-of-type(2){grid-column:2 / 7}
+.ex:nth-of-type(3){grid-column:1 / 6}
+.ex:nth-of-type(4){grid-column:2 / 7}
+.ex:nth-of-type(5){grid-column:1 / 6}
+.ex:nth-of-type(6){grid-column:2 / 7}
+.ex h2{margin:0;font-weight:400}
+.ex h2 small{display:block;font-family:var(--type);font-size:12px;letter-spacing:.3em;color:var(--smoke);margin-bottom:4px}
+
+.wrap{overflow-x:auto;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+table{border-collapse:collapse;width:100%;min-width:460px;font-variant-numeric:tabular-nums}
+th,td{padding:10px 10px 12px;text-align:left;font-weight:400;vertical-align:bottom}
+thead th{font-size:12px;letter-spacing:.2em;color:var(--smoke);border-bottom:1px solid var(--rule)}
+tbody tr + tr th,tbody tr + tr td{border-top:1px solid var(--rule)}
+tbody th{width:38%}
+td.bar{
+  width:20%;
+  background:linear-gradient(to right,var(--paper) calc(var(--v) * 1%),var(--rule) 0) left bottom / 100% 3px no-repeat;
+}
+td.bar:hover{background-size:100% 6px}
+tr.pick th,tr.pick td{color:var(--paper)}
+tr.pick th::before{content:"◆ ";font-size:11px}
+tr.no th,tr.no td{color:var(--smoke)}
+tr.no td.bar{background-image:linear-gradient(to right,var(--smoke) calc(var(--v) * 1%),var(--rule) 0)}
+.cap{font-size:13px;color:var(--smoke)}
+
+.ex.code{grid-column:1 / 7}
+.codebox{overflow:auto;max-height:520px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:rgba(241,238,231,.03)}
+.codebox pre{margin:0;padding:16px;font:13px/1.55 var(--type);text-transform:none;color:var(--paper);tab-size:4}
+code{font-family:var(--type);text-transform:none}
+.cap a{color:var(--paper)}
+.verdict{grid-column:1 / 7;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 16px}
+.verdict h2{grid-column:1 / 4;margin:0;font-weight:400;text-align:center}
+.verdict ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.verdict li::before{content:"· "}
+.verdict h3{margin:0 0 6px;font-weight:400;font-family:var(--deco);letter-spacing:.14em;font-size:18px}
+
+.foot{grid-column:1 / 7;text-align:center;font-family:var(--deco);letter-spacing:.4em;color:var(--smoke)}
+
+@media (max-width:899px){
+  body{grid-template-columns:minmax(0,1fr);gap:40px}
+  body > *{grid-column:1 !important;text-align:left !important}
+  .foot{text-align:center !important}
+  .verdict{grid-template-columns:minmax(0,1fr)}
+  .verdict h2{grid-column:1;text-align:left}
+  .back{order:-1}
+}
+@media print{
+  html,body{background:#fff;color:#000}
+  body::before,body::after{display:none}
+  td.bar{background:none}
+}
+</style>
+</head>
+<body>
+
+<p class="file"><span class="t">case file no. 1</span><br><span class="dim">lobby, the card game</span></p>
+<p class="job">the evidence behind<br>the final rules</p>
+<p class="back"><a href="./">(back to the rules)</a></p>
+
+<div class="lede">
+  <p>lobby started as a riff on crazy eights. the shedding race stays, but matching suits becomes climbing floors, and the wild 8 becomes the 2 and the ace.</p>
+  <p>the first draft of lobby looked fine on paper. the trouble only showed up when you played it a few thousand times.</p>
+  <p class="dim">how it was tested: simple computer players dealt real shuffled decks and played by the rules, about 3,000 to 4,000 games for every setup and player count. each player plays the highest card they legally can. it's a rough test, not real people, so treat the numbers as direction rather than gospel. the full script is in exhibit g.</p>
+</div>
+
+<section class="ex">
+  <h2><small>exhibit a</small><span class="t">the original rules</span></h2>
+  <p>the game is a race to empty your hand, but almost nobody won that way. the draw deck ran out first in around 9 in 10 games, and players spent a huge chunk of their turns stuck picking up. the suspect: only being allowed to play the same floor or one higher.</p>
+  <div class="wrap"><table>
+    <thead><tr><th>what happened</th><th>2 players</th><th>3 players</th><th>4 players</th></tr></thead>
+    <tbody>
+      <tr><th>won by going out</th><td class="bar" style="--v:8" title="2 players: 8%">8%</td><td class="bar" style="--v:14" title="3 players: 14%">14%</td><td class="bar" style="--v:10" title="4 players: 10%">10%</td></tr>
+      <tr><th>deck ran out first</th><td class="bar" style="--v:92" title="2 players: 92%">92%</td><td class="bar" style="--v:86" title="3 players: 86%">86%</td><td class="bar" style="--v:90" title="4 players: 90%">90%</td></tr>
+      <tr><th>turns spent stuck</th><td class="bar" style="--v:50" title="2 players: 50%">50%</td><td class="bar" style="--v:41" title="3 players: 41%">41%</td><td class="bar" style="--v:31" title="4 players: 31%">31%</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="ex">
+  <h2><small>exhibit b</small><span class="t">the first round of fixes</span></h2>
+  <p>each change tested on its own, while the ace was still the top card. the measure is how often someone wins by going out, which is the whole point of the game.</p>
+  <div class="wrap"><table>
+    <thead><tr><th>rule change</th><th>2 players</th><th>3 players</th><th>4 players</th></tr></thead>
+    <tbody>
+      <tr><th>as written</th><td class="bar" style="--v:8">8%</td><td class="bar" style="--v:14">14%</td><td class="bar" style="--v:10">10%</td></tr>
+      <tr><th>go up to 2 floors</th><td class="bar" style="--v:23">23%</td><td class="bar" style="--v:26">26%</td><td class="bar" style="--v:21">21%</td></tr>
+      <tr><th>play every copy of a floor as a set</th><td class="bar" style="--v:31">31%</td><td class="bar" style="--v:28">28%</td><td class="bar" style="--v:20">20%</td></tr>
+      <tr><th>ace goes on j, q or k</th><td class="bar" style="--v:12">12%</td><td class="bar" style="--v:18">18%</td><td class="bar" style="--v:14">14%</td></tr>
+      <tr class="pick"><th>all three together</th><td class="bar" style="--v:62">62%</td><td class="bar" style="--v:66">66%</td><td class="bar" style="--v:57">57%</td></tr>
+      <tr class="no"><th>go down 1, same, or up 1</th><td class="bar" style="--v:21">21%</td><td class="bar" style="--v:21">21%</td><td class="bar" style="--v:12">12%</td></tr>
+      <tr class="no"><th>7 card hands</th><td class="bar" style="--v:10">10%</td><td class="bar" style="--v:20">20%</td><td class="bar" style="--v:22">22%</td></tr>
+      <tr class="no"><th>draw a card, then play it if you can</th><td class="bar" style="--v:8">8%</td><td class="bar" style="--v:15">15%</td><td class="bar" style="--v:10">10%</td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap">greyed rows were dropped. shuffling the shaft back into the deck stopped it running out, but games then lasted up to 400 turns on average with 2 players, and some never ended at all.</p>
+</section>
+
+<section class="ex">
+  <h2><small>exhibit c</small><span class="t">the ace becomes 1</span></h2>
+  <p>the ace was moved to the bottom as floor 1 but kept its power to clear the shaft, and the king became the penthouse that also clears. that doubled the clearing cards from 4 to 8. the big question was when an ace can go down.</p>
+  <div class="wrap"><table>
+    <thead><tr><th>setup</th><th>2 players</th><th>3 players</th><th>4 players</th></tr></thead>
+    <tbody>
+      <tr class="no"><th>ace only starts a new pile</th><td class="bar" style="--v:6">6%</td><td class="bar" style="--v:11">11%</td><td class="bar" style="--v:9">9%</td></tr>
+      <tr><th>ace goes anywhere</th><td class="bar" style="--v:26">26%</td><td class="bar" style="--v:40">40%</td><td class="bar" style="--v:40">40%</td></tr>
+      <tr><th>ace anywhere, up to 2 floors</th><td class="bar" style="--v:57">57%</td><td class="bar" style="--v:70">70%</td><td class="bar" style="--v:67">67%</td></tr>
+      <tr><th>ace anywhere, sets</th><td class="bar" style="--v:49">49%</td><td class="bar" style="--v:54">54%</td><td class="bar" style="--v:49">49%</td></tr>
+      <tr class="pick"><th>ace anywhere, up to 2 floors, sets</th><td class="bar" style="--v:76">76%</td><td class="bar" style="--v:80">80%</td><td class="bar" style="--v:74">74%</td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap">the chosen set gets games down to about 30 to 37 turns, with players stuck far less often.</p>
+</section>
+
+<section class="ex">
+  <h2><small>exhibit d</small><span class="t">is it fair?</span></h2>
+  <p>with the final rules, every seat wins about its fair share, so going first isn't an advantage. switching the start to "2 of diamonds goes first" changed nothing, so the lowest card still starts.</p>
+  <div class="wrap"><table>
+    <thead><tr><th>who wins</th><th>2 players</th><th>3 players</th><th>4 players</th></tr></thead>
+    <tbody>
+      <tr><th>fair share</th><td class="bar" style="--v:50">50%</td><td class="bar" style="--v:33">33%</td><td class="bar" style="--v:25">25%</td></tr>
+      <tr><th>whoever starts</th><td class="bar" style="--v:51">51%</td><td class="bar" style="--v:34">34%</td><td class="bar" style="--v:23">23%</td></tr>
+      <tr class="no"><th>2 of diamonds starts</th><td class="bar" style="--v:48">48%</td><td>not tested</td><td class="bar" style="--v:24">24%</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="ex">
+  <h2><small>exhibit e</small><span class="t">the lucky ace</span></h2>
+  <p>the one lasting imbalance. being dealt at least one ace is a real edge once there are 3 or 4 players. none of the fixes tried closed the gap by more than a point or two: counting the ace as 15 at the end, only allowing it when you can't play anything else, or taking away its extra card. it's built into having a card that goes anywhere, like a wild in uno, so it stays as the lucky card of the deck.</p>
+  <div class="wrap"><table>
+    <thead><tr><th>your deal</th><th>2 players</th><th>3 players</th><th>4 players</th></tr></thead>
+    <tbody>
+      <tr><th>no ace</th><td class="bar" style="--v:48">48%</td><td class="bar" style="--v:28">28%</td><td class="bar" style="--v:19">19%</td></tr>
+      <tr><th>at least one ace</th><td class="bar" style="--v:52">52%</td><td class="bar" style="--v:37">37%</td><td class="bar" style="--v:29">29%</td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap">the one choice that really matters: firing your aces off early. a 4 player who does that wins 21% of the time against a fair 25%. saving aces and 2s for later made almost no difference.</p>
+</section>
+
+<section class="ex">
+  <h2><small>exhibit f</small><span class="t">how long it lasts</span></h2>
+  <p>most games are over in about 30 turns. with 2 players a few still drag, so the final rules deal 8 cards each instead of 10. that shortens the typical game and gets slightly more people out, but the longest games stay long.</p>
+  <div class="wrap"><table>
+    <thead><tr><th>final rules</th><th>won by going out</th><th>typical game</th><th>longest 1 in 10</th></tr></thead>
+    <tbody>
+      <tr><th>2 players, 10 cards</th><td class="bar" style="--v:79">79%</td><td>32 turns</td><td>over 61 turns</td></tr>
+      <tr class="pick"><th>2 players, 8 cards</th><td class="bar" style="--v:83">83%</td><td>28 turns</td><td>over 65 turns</td></tr>
+      <tr><th>3 players, 10 cards</th><td class="bar" style="--v:81">81%</td><td>27 turns</td><td>over 50 turns</td></tr>
+      <tr><th>4 players, 10 cards</th><td class="bar" style="--v:74">74%</td><td>28 turns</td><td>over 39 turns</td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap">no game in any test of the final rules got stuck in an endless loop.</p>
+</section>
+
+<section class="ex code">
+  <h2><small>exhibit g</small><span class="t">how it was tested</span></h2>
+  <p>every number on this page came from a python script. it builds a real 52 card deck (ace 1 up to king 13), shuffles it, deals the hands, and has simple computer players follow the rules. each one plays the highest floor it legally can and only falls back on an ace or a 2 when it has to.</p>
+  <p>every setup was played 3,000 to 4,000 times, once for each player count. each game uses a numbered shuffle, so running it again gives the same results. the script counts how games end, how long they take, which seat wins and what each player was dealt. it runs in about a second with <code>python3 sim.py</code>.</p>
+  <div class="codebox"><pre><code># lobby simulator
+# plays thousands of games of lobby with simple computer players
+# and reports how often someone wins by going out, how long games last,
+# and whether any seat or deal has an edge.
+#
+# run it with:  python3 sim.py
+
+import random
+import statistics
+
+ACE, KING = 1, 13
+
+
+def play_game(players, seed, hand_size=10, max_step=2, sets=True):
+    &quot;&quot;&quot;plays one game with the final rules and returns what happened.&quot;&quot;&quot;
+    rng = random.Random(seed)
+
+    # a standard deck: ace is 1, j 11, q 12, k 13, four of each
+    deck = [floor for floor in range(1, 14) for _ in range(4)]
+    rng.shuffle(deck)
+
+    hands = [deck[i * hand_size:(i + 1) * hand_size] for i in range(players)]
+    draw_pile = deck[players * hand_size:]
+    aces_dealt = [hand.count(ACE) for hand in hands]
+
+    def can_play(card, top):
+        # the 2 and the ace go on anything,
+        # everything else is the same floor or up to max_step higher
+        if card in (2, ACE):
+            return True
+        return 0 &lt;= card - top &lt;= max_step
+
+    def lay(hand, card):
+        # play one copy, or every copy if sets are allowed
+        copies = hand.count(card) if sets else 1
+        for _ in range(copies):
+            hand.remove(card)
+
+    def restart(hand):
+        # after a clear, start the new pile with your highest card
+        # (keeping aces back, since they go anywhere later)
+        choices = [c for c in hand if c != ACE] or hand
+        card = max(choices)
+        lay(hand, card)
+        return card
+
+    # whoever holds the lowest card goes first and plays it
+    current = min(range(players), key=lambda i: min(hands[i]))
+    starter = current
+    first = min(hands[current])
+    lay(hands[current], first)
+    top = restart(hands[current]) if first in (ACE, KING) else first
+    current = (current + 1) % players
+
+    turns = 0
+    while turns &lt; 3000:
+        turns += 1
+        hand = hands[current]
+        options = {c for c in hand if can_play(c, top)}
+
+        if not options:
+            if not draw_pile:
+                # deck&#x27;s empty: lowest total wins, fewest cards breaks a tie
+                totals = [sum(h) for h in hands]
+                best = min(totals)
+                tied = [i for i in range(players) if totals[i] == best]
+                winner = min(tied, key=lambda i: len(hands[i]))
+                return dict(how=&quot;deck ran out&quot;, winner=winner, starter=starter,
+                            turns=turns, aces=aces_dealt)
+            hand.append(draw_pile.pop())  # stuck: pick up and skip
+            current = (current + 1) % players
+            continue
+
+        # strategy: play the highest normal floor you can,
+        # and only fall back on an ace or a 2 when you have to
+        normal = [c for c in options if c not in (2, ACE)]
+        card = max(normal) if normal else (ACE if ACE in options else 2)
+        lay(hand, card)
+
+        if card in (ACE, KING):
+            # clear the shaft, then start a new one
+            while hand:
+                top = restart(hand)
+                if top not in (ACE, KING):
+                    break
+        else:
+            top = card
+
+        if not hand:
+            return dict(how=&quot;went out&quot;, winner=current, starter=starter,
+                        turns=turns, aces=aces_dealt)
+        current = (current + 1) % players
+
+    return dict(how=&quot;never ended&quot;, winner=None, starter=starter,
+                turns=turns, aces=aces_dealt)
+
+
+def report(players, games=4000, **rules):
+    results = [play_game(players, seed, **rules) for seed in range(games)]
+    went_out = sum(r[&quot;how&quot;] == &quot;went out&quot; for r in results) / games
+    turns = sorted(r[&quot;turns&quot;] for r in results)
+    starter_wins = sum(r[&quot;winner&quot;] == r[&quot;starter&quot;] for r in results) / games
+
+    with_ace = [0, 0]
+    without_ace = [0, 0]
+    for r in results:
+        for seat, aces in enumerate(r[&quot;aces&quot;]):
+            bucket = with_ace if aces else without_ace
+            bucket[0] += 1
+            bucket[1] += r[&quot;winner&quot;] == seat
+
+    print(f&quot;{players} players, {rules or &#x27;final rules&#x27;}&quot;)
+    print(f&quot;  won by going out   {went_out:.0%}&quot;)
+    print(f&quot;  typical game       {statistics.median(turns):.0f} turns&quot;)
+    print(f&quot;  longest 1 in 10    over {turns[9 * games // 10]} turns&quot;)
+    print(f&quot;  starter wins       {starter_wins:.0%} (fair share {1 / players:.0%})&quot;)
+    print(f&quot;  win rate, no ace   {without_ace[1] / without_ace[0]:.0%}&quot;)
+    print(f&quot;  win rate, 1+ aces  {with_ace[1] / with_ace[0]:.0%}&quot;)
+    print()
+
+
+if __name__ == &quot;__main__&quot;:
+    report(2, hand_size=8)
+    report(3)
+    report(4)
+    # try the original rules for comparison: one floor up, no sets
+    report(4, max_step=1, sets=False)
+</code></pre></div>
+  <p class="cap"><a href="sim.py">(open sim.py)</a> &nbsp; this is the tidy final version, set up for the final rules with the original rules as a comparison at the end. the earlier tests used rougher versions of the same idea, so some numbers here can be a point off between runs.</p>
+</section>
+
+<section class="verdict">
+  <h2><span class="t">the verdict</span></h2>
+  <div>
+    <h3>what changed</h3>
+    <ul>
+      <li>go up to 2 floors, not 1</li>
+      <li>play every copy of a floor as a set</li>
+      <li>the ace is 1 and goes anywhere</li>
+      <li>the ace and king both clear</li>
+      <li>8 cards each with 2 players</li>
+      <li>card values settled for the end</li>
+    </ul>
+  </div>
+  <div>
+    <h3>what stayed</h3>
+    <ul>
+      <li>lowest card starts</li>
+      <li>stuck means pick up and skip</li>
+      <li>the 2 still drops the lift to the lobby</li>
+      <li>no reshuffling the shaft</li>
+    </ul>
+  </div>
+  <div>
+    <h3>still open</h3>
+    <ul>
+      <li>the ace is a lucky card to be dealt</li>
+      <li>not many big decisions per turn</li>
+      <li>long 2 player games happen now and then</li>
+      <li>needs testing with real people</li>
+    </ul>
+  </div>
+</section>
+
+<p class="foot">case closed, for now</p>
+
+</body>
+</html>
